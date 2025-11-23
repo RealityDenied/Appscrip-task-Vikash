@@ -1,4 +1,5 @@
 import ProductSection from './components/ProductSection'
+import Footer from './components/Footer'
 
 async function getProducts() {
   try {
@@ -23,7 +24,12 @@ export default async function HomePage() {
       <header className="header">
         <div className="header-container">
           <div className="header-left">
-            <div className="circle-icon">
+            <button className="hamburger-menu">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+              </svg>
+            </button>
+            <div className="circle-icon desktop-only">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" fill="none"/>
               </svg>
@@ -66,11 +72,18 @@ export default async function HomePage() {
       </header>
       <nav className="navigation-bar">
         <div className="nav-container">
-          <a href="#" className="nav-link">SHOP</a>
-          <a href="#" className="nav-link">SKILLS</a>
-          <a href="#" className="nav-link">STORIES</a>
-          <a href="#" className="nav-link">ABOUT</a>
-          <a href="#" className="nav-link">CONTACT US</a>
+          <div className="breadcrumbs mobile-only">
+            <a href="#" className="breadcrumb-link">HOME</a>
+            <span className="breadcrumb-separator"> | </span>
+            <span className="breadcrumb-active">SHOP</span>
+          </div>
+          <div className="nav-links desktop-only">
+            <a href="#" className="nav-link">SHOP</a>
+            <a href="#" className="nav-link">SKILLS</a>
+            <a href="#" className="nav-link">STORIES</a>
+            <a href="#" className="nav-link">ABOUT</a>
+            <a href="#" className="nav-link">CONTACT US</a>
+          </div>
         </div>
       </nav>
       <section className="quote-section">
@@ -82,6 +95,7 @@ export default async function HomePage() {
         </div>
       </section>
       <ProductSection products={products} />
+      <Footer />
     </main>
   )
 }

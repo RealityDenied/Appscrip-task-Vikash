@@ -48,12 +48,13 @@ export default function ProductSection({ products }: ProductSectionProps) {
     <section className="product-section">
       <div className="filter-header">
         <div className="filter-header-left">
-          <span className="item-count">{products.length} ITEMS</span>
+          <span className="item-count desktop-only">{products.length} ITEMS</span>
           <button 
             className="toggle-filter-btn"
             onClick={() => setShowFilter(!showFilter)}
           >
-            {showFilter ? '< HIDE FILTER' : '> SHOW FILTER'}
+            <span className="desktop-only">{showFilter ? '< HIDE FILTER' : '> SHOW FILTER'}</span>
+            <span className="mobile-only">FILTER</span>
           </button>
         </div>
         <div className="filter-header-right">
@@ -109,8 +110,10 @@ export default function ProductSection({ products }: ProductSectionProps) {
                   aria-label="Add to wishlist"
                 >
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path 
-                      d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" 
+                    <circle 
+                      cx="12" 
+                      cy="12" 
+                      r="10" 
                       stroke="currentColor" 
                       strokeWidth="2" 
                       fill={wishlist.includes(product.id) ? "currentColor" : "none"}
