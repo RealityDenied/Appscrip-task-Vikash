@@ -89,6 +89,7 @@ export default async function HomePage() {
       <section className="quote-section">
         <div className="quote-container">
           <h1 className="quote-title">DISCOVER OUR PRODUCTS</h1>
+          <h2 className="quote-subtitle">Shop Our Collection</h2>
           <p className="quote-text">
             Lorem ipsum dolor sit amet consectetur. Amet est posuere rhoncus scelerisque. Dolor integer scelerisque nibh amet mi ut elementum dolor.
           </p>
