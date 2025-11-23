@@ -1,4 +1,23 @@
-export default function HomePage() {
+import ProductSection from './components/ProductSection'
+
+async function getProducts() {
+  try {
+    const res = await fetch('https://fakestoreapi.com/products', {
+      cache: 'no-store'
+    })
+    if (!res.ok) {
+      throw new Error('Failed to fetch products')
+    }
+    return res.json()
+  } catch (error) {
+    console.error('Error fetching products:', error)
+    return []
+  }
+}
+
+export default async function HomePage() {
+  const products = await getProducts()
+
   return (
     <main>
       <header className="header">
@@ -62,6 +81,7 @@ export default function HomePage() {
           </p>
         </div>
       </section>
+      <ProductSection products={products} />
     </main>
   )
 }
