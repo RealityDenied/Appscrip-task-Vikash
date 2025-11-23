@@ -525,6 +525,11 @@ a {
     padding: 0 15px;
   }
 
+  .header-left {
+    justify-content: flex-start;
+    flex: 0;
+  }
+
   .hamburger-menu {
     display: flex;
     align-items: center;
@@ -560,6 +565,7 @@ a {
 
   .nav-container {
     padding: 0 15px;
+    justify-content: flex-start;
   }
 
   .nav-links.desktop-only {
@@ -569,6 +575,7 @@ a {
   .breadcrumbs.mobile-only {
     display: block;
     font-size: 12px;
+    text-align: left;
   }
 
   /* Quote Section Mobile */
