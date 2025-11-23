@@ -11,12 +11,12 @@ A shopping page built with React and Next.js framework, featuring Server Side Re
 
 ## Features
 
-- ✅ Server Side Rendering (SSR) enabled by default
-- ✅ Responsive design ready
-- ✅ SEO optimized structure
-- ✅ Clean code structure and naming conventions
-- ✅ Minimal DOM size
-- ✅ TypeScript for type safety
+-  Server Side Rendering (SSR) enabled by default
+-  Responsive design ready
+-  SEO optimized structure
+-  Clean code structure and naming conventions
+-  Minimal DOM size
+-  TypeScript for type safety
 
 ## Getting Started
 
