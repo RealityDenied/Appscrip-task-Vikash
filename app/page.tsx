@@ -1,66 +1,9 @@
-import { headers } from 'next/headers'
 import ProductSection from './components/ProductSection'
 import Footer from './components/Footer'
 
-// Force dynamic rendering for this page
-export const dynamic = 'force-dynamic'
-export const revalidate = 0
+export const revalidate = 3600
 
-async function getProducts() {
-  // Resolve the API route using the incoming request headers
-  const headersList = headers()
-  const host = headersList.get('host') ?? 'localhost:3000'
-  const protocol = host.includes('localhost') ? 'http' : 'https'
-  const apiUrl = `${protocol}://${host}/api/test`
-
-  const maxRetries = 3
-  let lastError: Error | null = null
-
-  for (let attempt = 1; attempt <= maxRetries; attempt++) {
-    try {
-      const controller = new AbortController()
-      const timeoutId = setTimeout(() => controller.abort(), 10000)
-
-      try {
-        const res = await fetch(apiUrl, {
-          cache: 'no-store',
-          signal: controller.signal,
-          headers: { 
-            'Accept': 'application/json',
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
-          }
-        })
-
-        clearTimeout(timeoutId)
-
-        if (!res.ok) {
-          throw new Error(`HTTP ${res.status}`)
-        }
-
-        const data = await res.json()
-        return data
-      } catch (e) {
-        clearTimeout(timeoutId)
-        lastError = e as Error
-        console.warn(`Attempt ${attempt} failed:`, lastError?.message)
-      }
-    } catch (e) {
-      lastError = e as Error
-    }
-  }
-
-  console.error('Failed to fetch products after retries:', lastError?.message)
-  return []
-}
-
-
-export default async function HomePage() {
-  const products = await getProducts()
-  
-  // Log for debugging in production
-  if (products.length === 0) {
-    console.warn('No products loaded - API may be unavailable')
-  }
+export default function HomePage() {
 
   return (
     <main>
@@ -138,7 +81,7 @@ export default async function HomePage() {
           </p>
         </div>
       </section>
-      <ProductSection products={products} />
+      <ProductSection />
       <Footer />
     </main>
   )

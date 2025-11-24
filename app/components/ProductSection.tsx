@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Image from 'next/image'
 
 interface Product {
@@ -16,13 +16,48 @@ interface Product {
   }
 }
 
-interface ProductSectionProps {
-  products: Product[]
-}
-
-export default function ProductSection({ products }: ProductSectionProps) {
+export default function ProductSection() {
   const [showFilter, setShowFilter] = useState(true)
   const [wishlist, setWishlist] = useState<number[]>([])
+  const [products, setProducts] = useState<Product[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    const controller = new AbortController()
+
+    async function loadProducts() {
+      setIsLoading(true)
+      setError(null)
+
+      try {
+        const res = await fetch('/api/test', {
+          cache: 'no-store',
+          signal: controller.signal,
+          headers: { 'Accept': 'application/json' },
+        })
+
+        if (!res.ok) {
+          throw new Error(`HTTP ${res.status}`)
+        }
+
+        const data = await res.json()
+        setProducts(Array.isArray(data) ? data : [])
+      } catch (err) {
+        if ((err as Error).name !== 'AbortError') {
+          setError('Unable to load products. Please try again.')
+        }
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    loadProducts()
+
+    return () => controller.abort()
+  }, [])
+
+  const shimmerItems = useMemo(() => Array.from({ length: 8 }, (_, index) => index), [])
 
   const toggleWishlist = (productId: number) => {
     setWishlist(prev => 
@@ -94,7 +129,26 @@ export default function ProductSection({ products }: ProductSectionProps) {
         </aside>
 
         <div className={`product-list ${showFilter ? 'with-filter' : 'full-width'}`}>
-          {products.map((product) => (
+          {isLoading && (
+            shimmerItems.map(item => (
+              <div key={`shimmer-${item}`} className="product-card shimmer">
+                <div className="product-image-wrapper shimmer-box" />
+                <div className="product-info">
+                  <div className="shimmer-line short" />
+                  <div className="shimmer-line" />
+                </div>
+              </div>
+            ))
+          )}
+
+          {!isLoading && error && (
+            <div className="product-error">
+              <p>{error}</p>
+              <button onClick={() => window.location.reload()}>Retry</button>
+            </div>
+          )}
+
+          {!isLoading && !error && products.map((product) => (
             <div key={product.id} className="product-card">
               <div className="product-image-wrapper">
                 <Image
