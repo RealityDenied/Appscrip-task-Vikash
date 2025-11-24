@@ -6,6 +6,10 @@ export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
 async function getProducts() {
+  // read target API URL / credentials from env so prod deployments (Netlify) can override defaults
+  const apiUrl = process.env.REACT_APP_API_URL || 'https://fakestoreapi.com/products'
+  const clientId = process.env.REACT_APP_CLIENT_ID
+
   const maxRetries = 3
   let lastError: Error | null = null
 
@@ -15,15 +19,13 @@ async function getProducts() {
       const timeoutId = setTimeout(() => controller.abort(), 8000) // 8 second timeout
 
       try {
-        const baseUrl =
-          process.env.NEXT_PUBLIC_SITE_URL ||
-          (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000')
-
-        const res = await fetch(`${baseUrl}/api/products`, {
+        const res = await fetch(apiUrl, {
           cache: 'no-store',
           signal: controller.signal,
           headers: {
-            Accept: 'application/json',
+            'Accept': 'application/json',
+            'User-Agent': 'Mozilla/5.0',
+            ...(clientId ? { 'X-Client-Id': clientId } : {}),
           },
         })
 

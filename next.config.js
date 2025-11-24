@@ -7,10 +7,6 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'fakestoreapi.com',
       },
-      {
-        protocol: 'https',
-        hostname: 'cdn.dummyjson.com',
-      },
     ],
     formats: ['image/avif', 'image/webp'],
   },
