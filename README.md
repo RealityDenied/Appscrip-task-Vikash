@@ -2,6 +2,9 @@
 
 A shopping page built with React and Next.js framework, featuring Server Side Rendering (SSR).
 
+
+Live Demo - https://appscrip-task-vikash.vercel.app/
+
 ## Tech Stack
 
 - **React.js** - UI library

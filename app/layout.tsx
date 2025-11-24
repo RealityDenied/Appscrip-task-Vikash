@@ -5,6 +5,9 @@ import './globals.css'
 export const metadata: Metadata = {
   title: 'Shopping Page - Ecommerce Store',
   description: 'Discover amazing products at our online shopping store. Browse through a wide selection of quality items with great prices.',
+  icons: {
+    icon: '/favicon.ico',
+  },
 }
 
 export default function RootLayout({
