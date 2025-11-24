@@ -6,9 +6,7 @@ export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
 async function getProducts() {
-  // read target API URL / credentials from env so prod deployments (Netlify) can override defaults
-  const apiUrl = process.env.REACT_APP_API_URL || 'https://fakestoreapi.com/products'
-  const clientId = process.env.REACT_APP_CLIENT_ID
+  const apiUrl = 'https://fakestoreapi.com/products'
 
   const maxRetries = 3
   let lastError: Error | null = null
@@ -16,58 +14,36 @@ async function getProducts() {
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
       const controller = new AbortController()
-      const timeoutId = setTimeout(() => controller.abort(), 8000) // 8 second timeout
+      const timeoutId = setTimeout(() => controller.abort(), 8000)
 
       try {
         const res = await fetch(apiUrl, {
           cache: 'no-store',
           signal: controller.signal,
-          headers: {
-            'Accept': 'application/json',
-            'User-Agent': 'Mozilla/5.0',
-            ...(clientId ? { 'X-Client-Id': clientId } : {}),
-          },
+          headers: { 'Accept': 'application/json' }
         })
 
         clearTimeout(timeoutId)
 
         if (!res.ok) {
-          throw new Error(`HTTP ${res.status}: ${res.statusText}`)
+          throw new Error(`HTTP ${res.status}`)
         }
 
         const data = await res.json()
-        
-        if (Array.isArray(data) && data.length > 0) {
-          return data
-        }
-        
-        throw new Error('Invalid response: Empty or invalid data')
-      } catch (fetchError: any) {
+        return data
+      } catch (e) {
         clearTimeout(timeoutId)
-        
-        if (fetchError.name === 'AbortError') {
-          lastError = new Error(`Request timeout (attempt ${attempt}/${maxRetries})`)
-        } else {
-          lastError = fetchError instanceof Error ? fetchError : new Error(String(fetchError))
-        }
-        
-        // Wait before retry (exponential backoff)
-        if (attempt < maxRetries) {
-          await new Promise(resolve => setTimeout(resolve, 1000 * attempt))
-        }
+        lastError = e as Error
       }
-    } catch (error: any) {
-      lastError = error instanceof Error ? error : new Error(String(error))
-      if (attempt < maxRetries) {
-        await new Promise(resolve => setTimeout(resolve, 1000 * attempt))
-      }
+    } catch (e) {
+      lastError = e as Error
     }
   }
 
-  // If all retries failed, log and return empty array
-  console.error('Failed to fetch products after all retries:', lastError?.message || 'Unknown error')
+  console.error('Failed to fetch products:', lastError?.message)
   return []
 }
+
 
 export default async function HomePage() {
   const products = await getProducts()
