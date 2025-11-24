@@ -1,0 +1,75 @@
+[
+  {
+    "id": 1,
+    "title": "Cotton T-shirt",
+    "price": 19.99,
+    "description": "Soft cotton crew-neck tee available in multiple colors.",
+    "category": "men's clothing",
+    "image": "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=600&auto=format&fit=crop&q=60",
+    "rating": { "rate": 4.2, "count": 128 }
+  },
+  {
+    "id": 2,
+    "title": "Denim Jacket",
+    "price": 64.5,
+    "description": "Classic fit denim jacket with inner lining for cooler days.",
+    "category": "women's clothing",
+    "image": "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=600&auto=format&fit=crop&q=60",
+    "rating": { "rate": 4.7, "count": 86 }
+  },
+  {
+    "id": 3,
+    "title": "Leather Backpack",
+    "price": 84,
+    "description": "Minimal leather backpack with padded laptop sleeve.",
+    "category": "bags",
+    "image": "https://images.unsplash.com/photo-1502164980785-f8aa41d53611?w=600&auto=format&fit=crop&q=60",
+    "rating": { "rate": 4.6, "count": 54 }
+  },
+  {
+    "id": 4,
+    "title": "Smart Watch",
+    "price": 199,
+    "description": "Water resistant smart watch with heart-rate monitoring.",
+    "category": "electronics",
+    "image": "https://images.unsplash.com/photo-1516574187841-cb9cc2ca948b?w=600&auto=format&fit=crop&q=60",
+    "rating": { "rate": 4.4, "count": 230 }
+  },
+  {
+    "id": 5,
+    "title": "Canvas Sneakers",
+    "price": 42.5,
+    "description": "Low-top canvas sneakers with rubber outsole.",
+    "category": "shoes",
+    "image": "https://images.unsplash.com/photo-1519741497674-611481863552?w=600&auto=format&fit=crop&q=60",
+    "rating": { "rate": 4.1, "count": 173 }
+  },
+  {
+    "id": 6,
+    "title": "Woven Basket",
+    "price": 27.99,
+    "description": "Handwoven basket perfect for storage or decor.",
+    "category": "home",
+    "image": "https://images.unsplash.com/photo-1503602642458-232111445657?w=600&auto=format&fit=crop&q=60",
+    "rating": { "rate": 4.8, "count": 68 }
+  },
+  {
+    "id": 7,
+    "title": "Ceramic Mug Set",
+    "price": 32,
+    "description": "Set of 4 ceramic mugs with matte glaze finish.",
+    "category": "kitchen",
+    "image": "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&auto=format&fit=crop&q=60",
+    "rating": { "rate": 4.3, "count": 95 }
+  },
+  {
+    "id": 8,
+    "title": "Wool Scarf",
+    "price": 38,
+    "description": "Lightweight wool scarf, woven by artisans.",
+    "category": "accessories",
+    "image": "https://images.unsplash.com/photo-1475180098004-ca77a66827be?w=600&auto=format&fit=crop&q=60",
+    "rating": { "rate": 4.5, "count": 61 }
+  }
+]
+

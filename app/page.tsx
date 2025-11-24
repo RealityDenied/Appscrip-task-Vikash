@@ -1,14 +1,17 @@
 import ProductSection from './components/ProductSection'
 import Footer from './components/Footer'
+import fallbackProducts from '@/data/fallbackProducts.json'
+
+type Product = (typeof fallbackProducts)[number]
 
 // Force dynamic rendering for this page
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
-async function getProducts() {
+async function getProducts(): Promise<Product[]> {
   const maxRetries = 3
   let lastError: Error | null = null
-
+  
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
       const controller = new AbortController()
@@ -59,9 +62,9 @@ async function getProducts() {
     }
   }
 
-  // If all retries failed, log and return empty array
   console.error('Failed to fetch products after all retries:', lastError?.message || 'Unknown error')
-  return []
+  console.warn('Serving fallback product catalog bundled with the app')
+  return fallbackProducts
 }
 
 export default async function HomePage() {
