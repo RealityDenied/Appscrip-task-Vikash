@@ -6,7 +6,10 @@ export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
 async function getProducts() {
-  const apiUrl = 'https://fakestoreapi.com/products'
+  // Use internal API route instead of calling external API directly
+  const apiUrl = process.env.VERCEL_URL 
+    ? `https://${process.env.VERCEL_URL}/api/test`
+    : 'http://localhost:3000/api/test'
 
   const maxRetries = 3
   let lastError: Error | null = null
@@ -14,13 +17,16 @@ async function getProducts() {
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
       const controller = new AbortController()
-      const timeoutId = setTimeout(() => controller.abort(), 8000)
+      const timeoutId = setTimeout(() => controller.abort(), 10000)
 
       try {
         const res = await fetch(apiUrl, {
           cache: 'no-store',
           signal: controller.signal,
-          headers: { 'Accept': 'application/json' }
+          headers: { 
+            'Accept': 'application/json',
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+          }
         })
 
         clearTimeout(timeoutId)
@@ -34,13 +40,14 @@ async function getProducts() {
       } catch (e) {
         clearTimeout(timeoutId)
         lastError = e as Error
+        console.warn(`Attempt ${attempt} failed:`, lastError?.message)
       }
     } catch (e) {
       lastError = e as Error
     }
   }
 
-  console.error('Failed to fetch products:', lastError?.message)
+  console.error('Failed to fetch products after retries:', lastError?.message)
   return []
 }
 

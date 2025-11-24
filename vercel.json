@@ -7,6 +7,14 @@
   "functions": {
     "app/page.tsx": {
       "maxDuration": 30
+    },
+    "app/api/test/route.ts": {
+      "maxDuration": 15
+    }
+  },
+  "env": {
+    "VERCEL_URL": {
+      "default": "localhost:3000"
     }
   }
 }
