@@ -20,7 +20,7 @@ export default function RootLayout({
     '@type': 'WebSite',
     name: 'Shopping Page - Ecommerce Store',
     description: 'Discover amazing products at our online shopping store. Browse through a wide selection of quality items with great prices.',
-    url: process.env.NEXT_PUBLIC_SITE_URL || 'https://your-domain.com',
+    url: process.env.NEXT_PUBLIC_SITE_URL || 'https://appscrip-task-vikash.vercel.app/',
   }
 
   return (
