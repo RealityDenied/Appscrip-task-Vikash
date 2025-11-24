@@ -1,29 +1,29 @@
 import ProductSection from './components/ProductSection'
 import Footer from './components/Footer'
-import fallbackProducts from '@/data/fallbackProducts.json'
-
-type Product = (typeof fallbackProducts)[number]
 
 // Force dynamic rendering for this page
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
-async function getProducts(): Promise<Product[]> {
+async function getProducts() {
   const maxRetries = 3
   let lastError: Error | null = null
-  
+
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
       const controller = new AbortController()
       const timeoutId = setTimeout(() => controller.abort(), 8000) // 8 second timeout
 
       try {
-        const res = await fetch('https://fakestoreapi.com/products', {
+        const baseUrl =
+          process.env.NEXT_PUBLIC_SITE_URL ||
+          (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000')
+
+        const res = await fetch(`${baseUrl}/api/products`, {
           cache: 'no-store',
           signal: controller.signal,
           headers: {
-            'Accept': 'application/json',
-            'User-Agent': 'Mozilla/5.0',
+            Accept: 'application/json',
           },
         })
 
@@ -62,9 +62,9 @@ async function getProducts(): Promise<Product[]> {
     }
   }
 
+  // If all retries failed, log and return empty array
   console.error('Failed to fetch products after all retries:', lastError?.message || 'Unknown error')
-  console.warn('Serving fallback product catalog bundled with the app')
-  return fallbackProducts
+  return []
 }
 
 export default async function HomePage() {
