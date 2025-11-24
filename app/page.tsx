@@ -1,3 +1,4 @@
+import { headers } from 'next/headers'
 import ProductSection from './components/ProductSection'
 import Footer from './components/Footer'
 
@@ -6,10 +7,11 @@ export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
 async function getProducts() {
-  // Use internal API route instead of calling external API directly
-  const apiUrl = process.env.VERCEL_URL 
-    ? `https://${process.env.VERCEL_URL}/api/test`
-    : 'http://localhost:3000/api/test'
+  // Resolve the API route using the incoming request headers
+  const headersList = headers()
+  const host = headersList.get('host') ?? 'localhost:3000'
+  const protocol = host.includes('localhost') ? 'http' : 'https'
+  const apiUrl = `${protocol}://${host}/api/test`
 
   const maxRetries = 3
   let lastError: Error | null = null
